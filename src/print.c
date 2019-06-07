@@ -1,0 +1,50 @@
+/*
+** EPITECH PROJECT, 2019
+** print
+** File description:
+** print
+*/
+
+#include "arpspoof.h"
+
+void print_broadcast(data_t *data)
+{
+    unsigned char buffer[60];
+    struct ethhdr *send_req = (struct ethhdr *)buffer;
+    arp_header_t *arp_req = (arp_header_t *)(buffer + 14);
+
+    memset(send_req->h_dest, 0xff, 6);
+    memcpy(send_req->h_source, data->mac_source, 6);
+    send_req->h_proto = htons(ETH_P_ARP);
+    memset(arp_req->target_mac, 0xff, 6);
+    memcpy(arp_req->sender_mac, data->mac_source, 6);
+    arp_req->hardware_type = htons(1);
+    arp_req->protocol_type = htons(ETH_P_IP);
+    arp_req->hardware_len = 6;
+    arp_req->protocol_len = 4;
+    arp_req->opcode = htons(0x01);
+    memcpy(arp_req->sender_ip, &data->ip_source, sizeof(uint32_t));
+    memcpy(arp_req->target_ip, &data->ip_dest, sizeof(uint32_t));
+    print_arp_packet(send_req, arp_req);
+}
+
+void print_spoof(data_t *data)
+{
+    unsigned char buffer[60];
+    struct ethhdr *send_req = (struct ethhdr *)buffer;
+    arp_header_t *arp_req = (arp_header_t *)(buffer + 14);
+
+    memcpy(send_req->h_dest, data->mac_dest, 6);
+    memcpy(arp_req->target_mac, data->mac_dest, 6);
+    memcpy(send_req->h_source, data->mac_source, 6);
+    memcpy(arp_req->sender_mac, data->mac_source, 6);
+    send_req->h_proto = htons(ETH_P_ARP);
+    arp_req->hardware_type = htons(1);
+    arp_req->protocol_type = htons(ETH_P_IP);
+    arp_req->hardware_len = 6;
+    arp_req->protocol_len = 4;
+    arp_req->opcode = htons(0x02);
+    memcpy(arp_req->sender_ip, &data->ip_source, sizeof(uint32_t));
+    memcpy(arp_req->target_ip, &data->ip_dest, sizeof(uint32_t));
+    print_arp_packet(send_req, arp_req);
+}
