@@ -37,11 +37,12 @@ typedef struct arp_header_s {
     unsigned char protocol_len;
     unsigned short opcode;
     unsigned char sender_mac[6];
-    unsigned char target_mac[6];
     unsigned char sender_ip[4];
+    unsigned char target_mac[6];
     unsigned char target_ip[4];
 } arp_header_t;
 
+char *target_g;
 void set_structure(data_t *data, char **argv);
 void run_broadcast(data_t *data);
 void run_spoof(data_t *data);
@@ -51,5 +52,12 @@ void print_arp_packet(struct ethhdr *send_req, arp_header_t *arp_hdr);
 void print_broadcast(data_t *data);
 void get_mac_adresse_destination(data_t *data, char *mac);
 void print_spoof(data_t *data);
+int bind_arp(data_t *data);
+void print_debug(data_t *data);
+void run_arp(data_t *data);
+void fill_sockaddr_ll(struct sockaddr_ll *socket_address, data_t *data);
+void arp_run(data_t *data);
+void set_arp_stuff_request(arp_header_t *arp_req);
+void set_arp_stuff_response(arp_header_t *arp_req);
 
 #endif /* !ARPSPOOF_H_ */

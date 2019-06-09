@@ -33,6 +33,9 @@ void get_mac_adresse_source(data_t *data)
     if (sd <= 0)
         my_perror("socket()");
     strcpy(ifr.ifr_name, data->interface);
+    if (ioctl(sd, SIOCGIFINDEX, &ifr) == -1)
+        my_perror("SIOCGIFINDEX");
+    data->index_interface = ifr.ifr_ifindex;
     if (ioctl(sd, SIOCGIFHWADDR, &ifr) == -1)
         my_perror("SIOCGIFINDEX");
     memcpy(data->mac_source, ifr.ifr_hwaddr.sa_data, 6);

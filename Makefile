@@ -1,4 +1,4 @@
-CC	=	gcc -g3
+CC	=	gcc
 
 RM	=	rm -f
 
@@ -7,7 +7,8 @@ SRC	=	get_mac_adrresses.c	\
 		run.c				\
 		set_structur.c		\
 		utils.c				\
-		print.c
+		print.c				\
+		bind_arp.c
 
 DIR_SRC = src
 
@@ -15,7 +16,7 @@ OBJ	=	$(addprefix $(DIR_SRC)/, $(SRC:.c=.o))
 
 CFLAGS	=	-Iincludes -Wall -Wextra
 
-NAME	=	my_arpspoof
+NAME	=	myARPspoof
 
 all:		$(NAME)
 

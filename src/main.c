@@ -20,12 +20,15 @@ int main(int argc, char const **argv)
     if (argc > 6 || argc < 4)
         print_usage();
     set_structure(&data, (char **)argv);
+    if (argc == 4) {
+        run_arp(&data);
+        exit(0);
+    }
     if (argv[4] && strcmp(argv[4], "--printBroadcast") == 0)
         run_broadcast(&data);
-    else if (argv[4] && strcmp(argv[4], "--printSpoof") == 0) {
+    if (argv[4] && strcmp(argv[4], "--printSpoof") == 0) {
         get_mac_adresse_destination(&data, (char *)argv[5]);
         run_spoof(&data);
-    } else
-        return (0);
+    }
     return (0);
 }

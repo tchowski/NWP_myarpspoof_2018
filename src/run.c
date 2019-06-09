@@ -13,6 +13,13 @@ void run_broadcast(data_t *data)
     print_broadcast(data);
 }
 
+void run_arp(data_t *data)
+{
+    get_mac_adresse_source(data);
+    bind_arp(data);
+    arp_run(data);
+}
+
 void run_spoof(data_t *data)
 {
     get_mac_adresse_source(data);
